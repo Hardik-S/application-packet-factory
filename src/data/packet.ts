@@ -4,7 +4,7 @@ export const packetInput: PacketInput = {
   role: {
     title: "Product Operations Analyst",
     company: "Northstar Automation Labs",
-    source: "synthetic-role-brief.md",
+    source: "docs/fixtures/synthetic-role-brief.md",
     deadline: "2026-05-17",
     requirements: [
       "Map ambiguous intake into repeatable operating checklists",
@@ -15,7 +15,7 @@ export const packetInput: PacketInput = {
   },
   candidate: {
     name: "Demo Candidate",
-    source: "synthetic-master-facts.json",
+    source: "docs/fixtures/synthetic-master-facts.json",
     facts: [
       {
         id: "fact-ops",

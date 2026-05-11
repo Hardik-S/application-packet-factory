@@ -65,6 +65,13 @@ export type PacketOutput = {
   };
 };
 
+export type ArtifactMetadata = {
+  filename: string;
+  byteSize: number;
+  status: ReviewPlan["sendState"];
+  guidance: string;
+};
+
 export function buildPacket(input: PacketInput): PacketOutput {
   const verifiedFacts = input.candidate.facts.filter((fact) => fact.trust === "verified");
   const needsProofFacts = input.candidate.facts.filter((fact) => fact.trust === "needs-proof");
@@ -72,6 +79,7 @@ export function buildPacket(input: PacketInput): PacketOutput {
   const matchedRequirements = input.role.requirements.filter((requirement) =>
     verifiedFacts.some((fact) => supportsRequirement(fact, requirement))
   );
+  const allRequirementsVerified = matchedRequirements.length === input.role.requirements.length;
 
   return {
     submission: [
@@ -82,8 +90,8 @@ export function buildPacket(input: PacketInput): PacketOutput {
       },
       {
         label: "Verified evidence mapped",
-        status: matchedRequirements.length >= 2 ? "ready" : "review",
-        rationale: `${matchedRequirements.length} requirement(s) have verified synthetic evidence.`
+        status: allRequirementsVerified ? "ready" : "review",
+        rationale: `${matchedRequirements.length} of ${input.role.requirements.length} requirement(s) have verified synthetic evidence.`
       },
       {
         label: "Unsupported claims excluded",
@@ -166,7 +174,7 @@ export function buildReviewPlan(input: PacketInput, packet: PacketOutput): Revie
       : []),
     {
       label: "Send only the verified packet",
-      status: sendState === "ready" ? "ready" : "review",
+      status: sendState === "ready" ? "ready" : sendState === "blocked" ? "blocked" : "review",
       owner: "Human sender",
       rationale:
         sendState === "ready"
@@ -221,8 +229,22 @@ export function createSubmissionPacket(input: PacketInput, packet: PacketOutput,
   return lines.join("\n");
 }
 
+export function buildArtifactMetadata(markdown: string, reviewPlan: ReviewPlan): ArtifactMetadata {
+  return {
+    filename: "application-packet-factory-review-packet.md",
+    byteSize: Buffer.byteLength(markdown, "utf8"),
+    status: reviewPlan.sendState,
+    guidance:
+      reviewPlan.sendState === "blocked"
+        ? "Do not send this packet until blockers are removed; copy or download only for reviewer handoff."
+        : reviewPlan.sendState === "review"
+          ? "Use this packet for human review and proof attachment before the final send."
+          : "Packet is ready for final human send after the sender completes standard review."
+  };
+}
+
 function supportsRequirement(fact: CandidateFact, requirement: string) {
-  return fact.supportsRequirements?.includes(requirement) ?? keywordOverlap(requirement, fact.claim) >= 2;
+  return fact.supportsRequirements?.includes(requirement) ?? false;
 }
 
 function buildEmailPreview(input: PacketInput, verifiedFacts: CandidateFact[]) {
@@ -232,17 +254,4 @@ function buildEmailPreview(input: PacketInput, verifiedFacts: CandidateFact[]) {
     .join(" ");
 
   return `${input.draftEmail.body}\n\nEvidence boundary: This packet uses synthetic demo facts only. Verified claims highlighted for this role: ${proofLine}`;
-}
-
-function keywordOverlap(left: string, right: string) {
-  const rightWords = new Set(words(right));
-  return words(left).filter((word) => rightWords.has(word)).length;
-}
-
-function words(value: string) {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9 ]/g, " ")
-    .split(/\s+/)
-    .filter((word) => word.length > 4);
 }

@@ -1,5 +1,6 @@
 import { packetInput } from "../data/packet";
-import { buildPacket, buildReviewPlan, createSubmissionPacket } from "../lib/packet";
+import { buildArtifactMetadata, buildPacket, buildReviewPlan, createSubmissionPacket } from "../lib/packet";
+import { PacketActions } from "./PacketActions";
 
 const statusLabels = {
   ready: "Ready",
@@ -12,6 +13,7 @@ export default function Home() {
   const packet = buildPacket(packetInput);
   const reviewPlan = buildReviewPlan(packetInput, packet);
   const reviewPacket = createSubmissionPacket(packetInput, packet, reviewPlan);
+  const artifactMetadata = buildArtifactMetadata(reviewPacket, reviewPlan);
 
   return (
     <main>
@@ -147,10 +149,13 @@ export default function Home() {
       </section>
 
       <section className="email" aria-label="Review packet preview">
-        <div>
-          <p className="eyebrow">Review packet</p>
-          <h2>Copy-safe Markdown artifact</h2>
-          <span>Unsupported claims are counted, not copied into the final packet.</span>
+        <div className="packetHeader">
+          <div>
+            <p className="eyebrow">Review packet</p>
+            <h2>Copy-safe Markdown artifact</h2>
+            <span>Unsupported claims are counted, not copied into the final packet.</span>
+          </div>
+          <PacketActions markdown={reviewPacket} metadata={artifactMetadata} />
         </div>
         <pre>{reviewPacket}</pre>
       </section>

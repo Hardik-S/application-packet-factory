@@ -251,6 +251,65 @@ h3 {
   margin-top: 18px;
 }
 
+.packetHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.packetActions {
+  padding: 16px;
+  border: 1px solid #e4ded2;
+  border-radius: 8px;
+  background: #fbfcf5;
+}
+
+.packetActions p {
+  margin: 10px 0 8px;
+  color: #535d54;
+  line-height: 1.45;
+}
+
+.packetActions small {
+  color: #687064;
+}
+
+.packetButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 10px;
+}
+
+.packetButtons button,
+.packetButtons a {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid #17201a;
+  border-radius: 8px;
+  background: #17201a;
+  color: #fffaf2;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.packetButtons a {
+  background: #fffaf2;
+  color: #17201a;
+}
+
+.actionMessage {
+  display: block;
+}
+
 pre {
   overflow-x: auto;
   white-space: pre-wrap;
@@ -271,7 +330,8 @@ pre {
   .grid,
   .rolePanel,
   .summary,
-  .actionGrid {
+  .actionGrid,
+  .packetHeader {
     grid-template-columns: 1fr;
   }
 

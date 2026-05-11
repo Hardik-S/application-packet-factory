@@ -1,0 +1,38 @@
+{
+  "classification": "synthetic-demo-fixture",
+  "nonSensitive": true,
+  "candidate": "Demo Candidate",
+  "facts": [
+    {
+      "id": "fact-ops",
+      "trust": "verified",
+      "sourceType": "synthetic portfolio summary",
+      "claim": "Built fixture-first workflow tools that convert messy source material into reviewable packets."
+    },
+    {
+      "id": "fact-ai",
+      "trust": "verified",
+      "sourceType": "synthetic product boundary note",
+      "claim": "Uses AI-assisted tooling while preserving human approval boundaries."
+    },
+    {
+      "id": "fact-pmo",
+      "trust": "needs-proof",
+      "sourceType": "synthetic prep note",
+      "claim": "Can support PMO coordination and stakeholder decision briefs."
+    },
+    {
+      "id": "fact-salesforce",
+      "trust": "unsupported",
+      "sourceType": "intentionally blank evidence case",
+      "claim": "Advanced Salesforce administrator."
+    }
+  ],
+  "excludedData": [
+    "real resumes",
+    "real job leads",
+    "recruiter emails",
+    "personal application history",
+    "credentials"
+  ]
+}
