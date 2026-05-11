@@ -51,7 +51,12 @@ Current verification target:
 - `npm run verify`
 - Live HTTP check after Vercel deploy should return `200` and include `Application Packet Factory`, `Synthetic data only`, `Human approval gate before submission`, and `Copy-safe Markdown artifact`.
 
-Latest worker deployment before this fixer pass: https://application-packet-factory.vercel.app. The fixer pass should redeploy after verification and record the new deployment evidence in the coordination logs.
+Latest deployment from the fixer pass:
+
+- Production alias: https://application-packet-factory.vercel.app
+- Deployment URL: https://application-packet-factory-83cccdnss-batb4016-9101s-projects.vercel.app
+- Vercel project: `application-packet-factory` / `prj_A2gh7taCkXxBSs9unJ4puL8cUnZV`
+- Verified on 2026-05-11 01:12 America/Toronto with HTTP `200` and the expected product strings.
 
 ## Decisions Made
 
