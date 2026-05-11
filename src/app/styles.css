@@ -69,7 +69,9 @@ h3 {
 .boundary,
 .panel,
 .email,
-.rolePanel {
+.rolePanel,
+.reviewDesk,
+.coverage {
   border: 1px solid #d7d0c2;
   border-radius: 8px;
   background: #fffaf2;
@@ -96,6 +98,13 @@ h3 {
   font-size: 1.6rem;
 }
 
+.boundary small,
+.action small,
+.coverageRow small {
+  color: #687064;
+  line-height: 1.45;
+}
+
 .summary {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -117,6 +126,38 @@ h3 {
   font-size: 1.75rem;
 }
 
+.reviewDesk,
+.coverage {
+  margin-bottom: 24px;
+  padding: 24px;
+}
+
+.deskHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.action {
+  min-height: 150px;
+  padding: 16px;
+  border: 1px solid #e4ded2;
+  border-radius: 8px;
+  background: #fbfcf5;
+}
+
+.action .status {
+  margin-bottom: 14px;
+}
+
 .rolePanel {
   display: flex;
   justify-content: space-between;
@@ -136,6 +177,19 @@ h3 {
   min-width: 270px;
   flex-direction: column;
   gap: 10px;
+}
+
+.coverageRow {
+  display: grid;
+  grid-template-columns: 94px 1fr;
+  gap: 14px;
+  padding: 16px 0;
+  border-top: 1px solid #e4ded2;
+}
+
+.coverageRow p {
+  margin-bottom: 6px;
+  color: #535d54;
 }
 
 .grid {
@@ -169,6 +223,11 @@ h3 {
 }
 
 .status.ready {
+  background: #dceccd;
+  color: #244420;
+}
+
+.status.verified {
   background: #dceccd;
   color: #244420;
 }
@@ -211,11 +270,21 @@ pre {
   .hero,
   .grid,
   .rolePanel,
-  .summary {
+  .summary,
+  .actionGrid {
     grid-template-columns: 1fr;
   }
 
   .rolePanel {
     display: block;
+  }
+
+  .deskHeader,
+  .coverageRow {
+    display: block;
+  }
+
+  .coverageRow .status {
+    margin-bottom: 12px;
   }
 }

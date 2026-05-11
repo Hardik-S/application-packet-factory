@@ -21,19 +21,25 @@ export const packetInput: PacketInput = {
         id: "fact-ops",
         claim: "Built fixture-first workflow tools that convert messy source material into reviewable packets.",
         evidence: "Portfolio demos for intake review, ops follow-up, and evidence consoles.",
-        trust: "verified"
+        trust: "verified",
+        supportsRequirements: [
+          "Map ambiguous intake into repeatable operating checklists",
+          "Ship lightweight dashboards and QA notes under time pressure"
+        ]
       },
       {
         id: "fact-ai",
         claim: "Uses AI-assisted tooling while preserving human approval boundaries.",
         evidence: "Documented no-send and no-auto-submit product boundaries.",
-        trust: "verified"
+        trust: "verified",
+        supportsRequirements: ["Explain AI-assisted workflow boundaries to non-technical reviewers"]
       },
       {
         id: "fact-pmo",
         claim: "Can support PMO coordination and stakeholder decision briefs.",
         evidence: "Mentioned in synthetic prep notes, but no project artifact is linked yet.",
-        trust: "needs-proof"
+        trust: "needs-proof",
+        supportsRequirements: ["Coordinate PMO-style follow-up across founders, operators, and engineers"]
       },
       {
         id: "fact-salesforce",

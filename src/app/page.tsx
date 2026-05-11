@@ -1,14 +1,17 @@
 import { packetInput } from "../data/packet";
-import { buildPacket } from "../lib/packet";
+import { buildPacket, buildReviewPlan, createSubmissionPacket } from "../lib/packet";
 
 const statusLabels = {
   ready: "Ready",
   review: "Review",
-  blocked: "Blocked"
+  blocked: "Blocked",
+  verified: "Verified"
 };
 
 export default function Home() {
   const packet = buildPacket(packetInput);
+  const reviewPlan = buildReviewPlan(packetInput, packet);
+  const reviewPacket = createSubmissionPacket(packetInput, packet, reviewPlan);
 
   return (
     <main>
@@ -23,9 +26,10 @@ export default function Home() {
           </p>
         </div>
         <div className="boundary">
-          <span>Boundary</span>
-          <strong>Synthetic data only</strong>
-          <p>Real personal facts, resumes, and employer data are intentionally excluded from this public slice.</p>
+          <span>Send state</span>
+          <strong>{statusLabels[reviewPlan.sendState]}</strong>
+          <p>{reviewPlan.reviewerSummary}</p>
+          <small>Synthetic data only. No email was sent.</small>
         </div>
       </section>
 
@@ -48,6 +52,28 @@ export default function Home() {
         </article>
       </section>
 
+      <section className="reviewDesk" aria-label="Reviewer action desk">
+        <div className="deskHeader">
+          <div>
+            <p className="eyebrow">Reviewer queue</p>
+            <h2>Human approval gate before submission</h2>
+          </div>
+          <span className={`status ${reviewPlan.sendState}`}>{statusLabels[reviewPlan.sendState]}</span>
+        </div>
+        <div className="actionGrid">
+          {reviewPlan.actions.map((action) => (
+            <article className="action" key={action.label}>
+              <span className={`status ${action.status}`}>{statusLabels[action.status]}</span>
+              <div>
+                <h3>{action.label}</h3>
+                <p>{action.rationale}</p>
+                <small>{action.owner}</small>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="rolePanel" aria-label="Role and source context">
         <div>
           <p className="eyebrow">Role target</p>
@@ -60,6 +86,27 @@ export default function Home() {
           <span>Role source: {packetInput.role.source}</span>
           <span>Fact source: {packetInput.candidate.source}</span>
         </div>
+      </section>
+
+      <section className="coverage" aria-label="Requirement coverage">
+        <div>
+          <p className="eyebrow">Requirement coverage</p>
+          <h2>Role-fit map with proof state</h2>
+        </div>
+        {reviewPlan.requirementCoverage.map((coverage) => (
+          <article className="coverageRow" key={coverage.requirement}>
+            <span className={`status ${coverage.status}`}>{statusLabels[coverage.status]}</span>
+            <div>
+              <h3>{coverage.requirement}</h3>
+              <p>{coverage.rationale}</p>
+              {coverage.facts.length > 0 ? (
+                <small>{coverage.facts.map((fact) => `${fact.id}: ${fact.evidence}`).join(" | ")}</small>
+              ) : (
+                <small>No claim should be used for this requirement yet.</small>
+              )}
+            </div>
+          </article>
+        ))}
       </section>
 
       <section className="grid" aria-label="Packet checklists">
@@ -79,7 +126,7 @@ export default function Home() {
         <div className="panel">
           <h2>Resume QA checklist</h2>
           {packet.resumeQa.map((item) => (
-            <article className="check" key={item.label}>
+            <article className="check" key={item.sourceId ?? item.label}>
               <span className={`status ${item.status}`}>{statusLabels[item.status]}</span>
               <div>
                 <h3>{item.label}</h3>
@@ -97,6 +144,15 @@ export default function Home() {
           <span>To: {packetInput.draftEmail.to}</span>
         </div>
         <pre>{packet.emailPreview}</pre>
+      </section>
+
+      <section className="email" aria-label="Review packet preview">
+        <div>
+          <p className="eyebrow">Review packet</p>
+          <h2>Copy-safe Markdown artifact</h2>
+          <span>Unsupported claims are counted, not copied into the final packet.</span>
+        </div>
+        <pre>{reviewPacket}</pre>
       </section>
     </main>
   );
