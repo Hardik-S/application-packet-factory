@@ -21,4 +21,13 @@
 - Output handling: Vercel-managed Next.js output.
 - Environment variables: none.
 - Production URL: https://application-packet-factory.vercel.app.
-- Deployment evidence for this specific quality pass is recorded in the coordination automation log after publish.
+
+## Production Deploy Evidence
+
+- Project commit verified in production: `44dff9ac224d67b348e0409717884897f272c553`.
+- Deployment id: `dpl_CrJPCNvxb84a16qR9dU5cjYBVXWP`.
+- Deployment URL: https://application-packet-factory-ceoy6vgv6-batb4016-9101s-projects.vercel.app.
+- Inspect URL: https://vercel.com/batb4016-9101s-projects/application-packet-factory/CrJPCNvxb84a16qR9dU5cjYBVXWP.
+- Alias: https://application-packet-factory.vercel.app.
+- HTTP smoke: production alias returned `200` and included `Application Packet Factory`, `Synthetic data only`, `Human approval gate before submission`, `Copy-safe Markdown artifact`, `Copy Markdown`, and `Download .md`.
+- Header smoke: production alias returned Content-Security-Policy, Referrer-Policy, Permissions-Policy, X-Frame-Options, X-Content-Type-Options, and Vercel HSTS.
